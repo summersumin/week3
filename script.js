@@ -1,7 +1,7 @@
 let craneCount = 0; 
 const craneCounter = document.getElementById('counter');
 
-
+// 비디오 소스 경로
 const videoMilestones = {
     100: 'sky1.mp4',
     300: 'sky2.mp4',
@@ -9,7 +9,6 @@ const videoMilestones = {
     700: 'sky4.mp4',
     900: 'sky5.mp4'
 };
-
 
 let promptShown = false;
 
@@ -24,28 +23,32 @@ document.addEventListener('mousemove', (event) => {
         craneImage.className = 'crane';
         craneImage.style.left = `${cursorX}px`;
         craneImage.style.top = `${cursorY}px`;
-        
-     
+
+        // craneCount 증가
         craneCount++;
         craneCounter.innerText = craneCount;
 
-    
-        craneImage.style.zIndex = craneCount; 
+        // crane.png의 z-index 설정
+        craneImage.style.zIndex = craneCount;
 
-    
+        // 비디오 생성 로직 (너비에 랜덤값 적용)
         if (videoMilestones[craneCount]) {
             const video = document.createElement('video');
-            video.src = videoMilestones[craneCount]; 
+            video.src = videoMilestones[craneCount];
             video.className = 'crane-video';
-            video.autoplay = true; 
-            video.loop = true; 
-            video.muted = true; 
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
 
-            
+            // 비디오의 너비를 250px에서 500px 사이의 랜덤값으로 설정
+            const randomWidth = Math.floor(Math.random() * (500 - 250 + 1)) + 250;
+            video.style.width = `${randomWidth}px`;
+
+            // 비디오 위치 설정: 커서 위치에 맞추기
             video.style.left = `${cursorX}px`;
-            video.style.top = `${cursorY + 80}px`; 
+            video.style.top = `${cursorY + 80}px`;
 
-            
+            // 비디오 z-index 설정
             if (craneCount === 100) video.style.zIndex = 99;
             else if (craneCount === 300) video.style.zIndex = 299;
             else if (craneCount === 500) video.style.zIndex = 499;
@@ -58,7 +61,7 @@ document.addEventListener('mousemove', (event) => {
         document.body.appendChild(craneImage);
     }
 
-  
+    // crane.png가 1000개에 도달했을 때 프롬프트 띄우기
     if (craneCount === 1000 && !promptShown) {
         promptShown = true; 
         setTimeout(() => {
@@ -68,7 +71,7 @@ document.addEventListener('mousemove', (event) => {
             } else {
                 alert('소원이 전달되었습니다.');
                 
-               
+                // crane.png 애니메이션 처리
                 document.querySelectorAll('.crane').forEach(crane => {
                     const randomX = Math.floor(Math.random() * (150 - 50 + 1)) + 50; // 50~150px 랜덤
                     crane.style.transition = 'transform 2s, opacity 2s'; // 2초 애니메이션
@@ -76,10 +79,10 @@ document.addEventListener('mousemove', (event) => {
                     crane.style.opacity = '0'; 
                 });
 
-                
+                // 애니메이션 종료 후 2초 뒤 페이지 리로드
                 setTimeout(() => {
-                    location.reload(); 
-                }, 2000); 
+                    location.reload();
+                }, 2000);
             }
         }, 100);
     }

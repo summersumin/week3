@@ -10,6 +10,15 @@ const videoMilestones = {
     900: 'sky5.mp4'
 };
 
+// 각 비디오의 너비 설정
+const videoWidths = {
+    100: 400,  // sky1.mp4의 너비
+    300: 250,  // sky2.mp4의 너비
+    500: 250,  // sky3.mp4의 너비
+    700: 500,  // sky4.mp4의 너비
+    900: 350   // sky5.mp4의 너비
+};
+
 let promptShown = false;
 
 document.addEventListener('mousemove', (event) => {
@@ -31,7 +40,7 @@ document.addEventListener('mousemove', (event) => {
         // crane.png의 z-index 설정
         craneImage.style.zIndex = craneCount;
 
-        // 비디오 생성 로직 (너비에 랜덤값 적용)
+        // 비디오 생성 로직 (각 비디오의 너비 설정)
         if (videoMilestones[craneCount]) {
             const video = document.createElement('video');
             video.src = videoMilestones[craneCount];
@@ -40,9 +49,8 @@ document.addEventListener('mousemove', (event) => {
             video.loop = true;
             video.muted = true;
 
-            // 비디오의 너비를 250px에서 500px 사이의 랜덤값으로 설정
-            const randomWidth = Math.floor(Math.random() * (500 - 250 + 1)) + 250;
-            video.style.width = `${randomWidth}px`;
+            // 해당 비디오의 너비 설정
+            video.style.width = `${videoWidths[craneCount]}px`;
 
             // 비디오 위치 설정: 커서 위치에 맞추기
             video.style.left = `${cursorX}px`;
